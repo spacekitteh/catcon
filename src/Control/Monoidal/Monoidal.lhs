@@ -65,14 +65,12 @@ class PreMonoidal k p => Monoidal k p
 instance Monoidal (->) (,)
 
 class Category k => Reified k where
-    --should this perhaps be :: (a -> b) k (k a b)???
     reify :: (a -> b) -> (k a b)
     default reify :: ExtractableReification k => (a -> b) -> (k a b)
     reify = isoTo reification
 
 class Reified k => ExtractableReification k where
     {-#MINIMAL reification | unreify #-}
-    -- should this perhaps be (a -> b) k (k a b)???
     reification :: Isomorphism (->) (a -> b)  (k a b)
     reification = Isomorphism (reify, unreify)
     unreify :: (k a b) -> (a -> b)
@@ -83,8 +81,8 @@ instance Arrow a => Reified a where
 
 instance (Reified k, PreMonoidal k (,)) => Arrow k where
     arr = reify
-    first = Control.Monoidal.GBifunctor.left
-    second = Control.Monoidal.GBifunctor.right
+    first = Control.Monoidal.GBifunctor.onLeft
+    second = Control.Monoidal.GBifunctor.onRight
 
 
 class (Reified k, GBifunctor p k k k) => Application k p where
@@ -103,37 +101,36 @@ instance Trace (->) (,) where
 
 
 --TODO
-class PreMonoidal k p => Terminal k p
-class Initial k p
-class (Terminal k p, PreMonoidal k p) => SemiPreCartesian k p
+--class PreMonoidal k p => Terminal k p
+--class Initial k p
+class (PreMonoidal k p) => SemiPreCartesian k p
+
 class (SemiPreCartesian k p, Monoidal k p) => SemiCartesian k p
+instance (SemiPreCartesian k p, Monoidal k p) => SemiCartesian k p
 class SemiPreCartesian k p => PreCartesian k p where
     delete :: k a (ID k p)
-class PreMonoidal k p => Diagonal k p where
     copy :: k a (p a a)
-class PreMonoidal k p => CoDiagonal k p (c:: * -> Constraint)  where
-    merge :: c a =>k (p a a) a
-class (SemiPreCartesian k p) => PreCoCartesian k p (c :: * -> Constraint) where
-    initial :: c a=> k (ID k p) a ---can this just be c a=> a?
-instance Terminal (->) (,)
-instance SemiPreCartesian (->) (,)
-instance Diagonal (->) (,) where
-    copy x = (x,x)
---instance CoDiagonal (->) (,) (Num) where
---    merge (a,b) = a+b
 
-instance CoDiagonal (->) (,) (Monoid) where
-    merge (a,b) = a <> b
+
+class (SemiPreCartesian k p) => PreCoCartesian k p (c :: * -> Constraint) where
+    create :: c a=> k (ID k p) a ---can this just be c a=> a?
+    merge :: c a => k (p a a) a
+
+instance SemiPreCartesian (->) (,)
+
 instance PreCartesian (->) (,) where
     delete _ = ()
+    copy a = (a,a)
 instance PreCoCartesian (->) (,) (Num) where
-    initial _ = 0
+    create _ = 0
+    merge (a, b) = a + b
 instance PreCoCartesian (->) (,) (Monoid) where
-    initial _ = mempty
+    create _ = mempty
+    merge (a,b) = a <> b
 class (PreCartesian k p, Monoidal k p) => Cartesian k p
 class Choice k p
 class PreMonoidal k p => Dagger k p where
-    --alternate name for involute could be dagger
+    --alternate name for involute could be dagger... or STAB :D
     involute :: k (k a b) (k b a)
 class PreMonoidal k p => LeftRigid k p where
     leftUnit :: k (ID k p) (p v vl)

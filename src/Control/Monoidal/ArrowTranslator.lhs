@@ -37,9 +37,7 @@ instance Show (ArrowExpr a b) where
 instance Category ArrowExpr where
     id = ID
     (.) = Compose
-{-#RULES ">>>" (>>>) = (>>>>) #-}
-(>>>>) :: ArrowExpr a b -> ArrowExpr b c -> ArrowExpr a c
-(>>>>) l r = Compose r l
+
 instance Arrow ArrowExpr where
     arr = Arr
     first = First
