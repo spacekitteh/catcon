@@ -19,7 +19,7 @@ import Control.Category
 import Data.Either
 
 
-{-# RULES "braid.unbraid = id" braid . unbraid = id;
+{--# RULES "braid.unbraid = id" braid . unbraid = id;
            "unbraid.braid = id" unbraid . braid = id #-}
 
 
@@ -44,7 +44,7 @@ instance Arrow a => Braided a (,) where
     braid = arr (\(x,y) -> (y,x))
     unbraid = braid
 
-{-# RULES
+{--# RULES
     "braid . twist . braid = twist"
      braid . twist . braid = twist;
     "unbraid . twist . braid = twist"
@@ -63,7 +63,7 @@ class Braided k p => Balanced k p where
     untwist :: (p b a) `k` (p b a)
     untwist = isoFrom twisting
 
-{-# RULES
+{--# RULES
         "swap.swap= id 1"
   (braid :: Symmetric k p => (p a b) `k` (p b a)) . braid = id;
         "swap.swap= id 2"
