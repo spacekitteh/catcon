@@ -15,8 +15,8 @@ library
                      Control.Monoidal.Braided Control.Monoidal.Cartesian
                      Control.Monoidal.GBifunctor Control.Monoidal.Binoidal
                      Control.Monoidal.ArrowTranslator Control.Monoidal.Isomorphism
-                     Control.Monoidal.Monoidal Data.Stream.BiStream
-                     Control.Monoidal.Reified
+                     Control.Monoidal.Monoidal Control.Monoidal.Scalars
+                     Data.Stream.BiStream Control.Monoidal.Reified
     exposed: True
     buildable: True
     default-language: Haskell2010

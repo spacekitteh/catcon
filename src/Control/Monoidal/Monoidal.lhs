@@ -46,13 +46,7 @@ class (Binoidal k p, Associative k p) => PreMonoidal k p where
     introduceRight :: a `k` (a `p` (ID k p))
     introduceRight = isoFrom rightUnitor
 
-newtype Scalar k p = Scalar {runScalar :: (ID k p) `k` (ID k p)}
 
-scaleLeft :: forall k p c. (PreMonoidal k p) => Scalar k p -> c `k` c
-scaleLeft s = eliminateLeft . ((onLeft (runScalar s)) . introduceLeft)
-instance Category k => Monoid (Scalar k p) where
-    mempty = Scalar id
-    mappend (Scalar l) (Scalar r)= Scalar (l . r)
 
 
 
