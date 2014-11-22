@@ -22,7 +22,7 @@ import Control.Monoidal.GBifunctor
 
 newtype Scalar k p = Scalar {runScalar :: (ID k p) `k` (ID k p)}
 
-scaleLeft :: forall k p c . (PreMonoidal k p) => Scalar k p -> c `k` c
+{-scaleLeft :: forall k p c . (PreMonoidal k p) => Scalar k p -> c `k` c
 scaleLeft (Scalar s) = el . ol  . il   where
     il :: c `k` ((ID k p) `p` c)
     il = introduceLeft
@@ -30,6 +30,7 @@ scaleLeft (Scalar s) = el . ol  . il   where
     el = eliminateLeft
 
     ol = onLeft s
+    -}
 instance Category k => Monoid (Scalar k p) where
     mempty = Scalar id
     mappend (Scalar l) (Scalar r)= Scalar (l . r)

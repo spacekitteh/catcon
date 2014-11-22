@@ -18,20 +18,21 @@ import Control.Monoidal.GBifunctor
 import Control.Arrow
 import Control.Category
 import Data.Either
+import Control.SmallCategory
 
-class (Category k, GBifunctor p k k k) => Binoidal k p where
+class (SmallCategory k, GBifunctor p k k k) => Binoidal k p where
   {-#MINIMAL inLeft, inRight #-}
   -- | Inject a value into the left side of the bifunctor
-  inLeft :: a `k` (b `k` (p a b))
+  inLeft :: (Objects k a, Objects k b) => a `k` (b `k` (p a b))
   -- | Inject a value into the right side of the bifunctor
-  inRight :: b `k` (a `k` (p a b))
+  inRight :: (Objects k a, Objects k b) => b `k` (a `k` (p a b))
 
 \end{code}
 
 Some example instances for both product and sum types:
 
 \begin{code}
-instance Binoidal (->) (,) where
+instance Binoidal (->)(,) where
   inLeft a = \x -> (a,x)
   inRight b = \x -> (x,b)
 

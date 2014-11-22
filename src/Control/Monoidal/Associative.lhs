@@ -9,7 +9,7 @@ module Control.Monoidal.Associative where
 import Control.Monoidal.Binoidal
 import Control.Monoidal.GBifunctor
 import Control.Monoidal.Isomorphism
-
+import Control.SmallCategory
 import Control.Arrow
 
 import Data.Either
@@ -17,11 +17,11 @@ import Data.Either
 
 class (GBifunctor p k k k, Binoidal k p) => Associative k p where
     {-# MINIMAL associator | (associateLeft, associateRight) #-}
-    associator :: Isomorphism k ((a `p` b) `p` c) (a `p` (b `p` c))
+    associator :: (Objects k a, Objects k b, Objects k c) =>  Isomorphism k ((a `p` b) `p` c) (a `p` (b `p` c))
     associator = Isomorphism (associateRight, associateLeft)
-    associateRight :: ((a `p` b) `p` c) `k` (a `p` (b `p` c))
+    associateRight :: (Objects k a, Objects k b, Objects k c) => ((a `p` b) `p` c) `k` (a `p` (b `p` c))
     associateRight =  isoTo associator
-    associateLeft :: (a `p` (b `p` c)) `k` ((a `p` b) `p` c)
+    associateLeft :: (Objects k a, Objects k b, Objects k c) => (a `p` (b `p` c)) `k` ((a `p` b) `p` c)
     associateLeft = isoFrom associator
 
 instance Associative (->) (,) where

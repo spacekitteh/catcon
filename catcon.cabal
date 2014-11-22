@@ -3,12 +3,13 @@ version: 0.1.0.0
 cabal-version: >=1.10
 build-type: Simple
 license: PublicDomain
+license-file: ""
 maintainer: sophie@traumapony.org
 synopsis: Categorical control theory, signal processing, and FRP
 category: Control
 author: Sophie Taylor
 data-dir: ""
-
+ 
 library
     build-depends: base >=4.7
     exposed-modules: Control.Control.Block Control.Monoidal.Associative
@@ -16,13 +17,13 @@ library
                      Control.Monoidal.GBifunctor Control.Monoidal.Binoidal
                      Control.Monoidal.ArrowTranslator Control.Monoidal.Isomorphism
                      Control.Monoidal.Monoidal Control.Monoidal.Scalars
-                     Data.Stream.BiStream Control.Monoidal.Reified
+                     Control.SmallCategory Data.Stream.BiStream Control.Monoidal.Reified
     exposed: True
     buildable: True
     default-language: Haskell2010
     default-extensions: DefaultSignatures MultiParamTypeClasses
                         FlexibleInstances FlexibleContexts UndecidableInstances PolyKinds
-                        ConstraintKinds InstanceSigs
+                        ConstraintKinds InstanceSigs TypeFamilies
     hs-source-dirs: src
-
-
+ 
+ 
