@@ -15,7 +15,7 @@ import Control.Monoidal.Associative
 import Control.Monoidal.Isomorphism
 
 import Control.Arrow
-import Control.Category
+import Control.SmallCategory
 import Data.Either
 
 

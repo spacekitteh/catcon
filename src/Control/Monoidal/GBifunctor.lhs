@@ -15,10 +15,10 @@ is also called a bifunctor from $C_1$ and $C_2$ to $D$.
 module Control.Monoidal.GBifunctor where
 
 import Control.Arrow
-import Control.Category
+import Control.SmallCategory
 import Data.Either
 
-class (Category r, Category s, Category t) =>
+class (SmallCategory r, SmallCategory s, SmallCategory t) =>
   GBifunctor p r s t | p r -> s t, p s -> r t, p t -> r s, p r s -> t where
     {-# MINIMAL bimap | (onLeft, onRight) #-}
     bimap :: r a b -> s c d -> t (p a c) (p b d)
